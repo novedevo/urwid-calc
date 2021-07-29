@@ -4,15 +4,23 @@ def exit_on_q(key):
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
 
+valid_chars = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' ', '(', ')')
+
 class QuestionBox(urwid.Filler):
     def keypress(self, size, key):
         if key != 'enter':
-            if key in tuple(map(lambda x: str(x), range(0,9))) or key == '+':
-                return super(QuestionBox, self).keypress(size, key)
+            return super(QuestionBox, self).keypress(size, key)
+        text = edit.edit_text
+        if not text:
+            self.original_widget = urwid.Text("Please enter an expression next time. Press Q to exit.")
             return
-        self.original_widget = urwid.Text(f"= \n{eval(edit.edit_text)}.\n\nPress Q to exit.")
+        for char in text:
+            if char not in valid_chars:
+                self.original_widget = urwid.Text("Invalid string. Press Q to exit.")
+                return
+        self.original_widget = urwid.Text(f"{text} \n= {eval(text)}.\n\nPress Q to exit.")
 
-edit = urwid.Edit("Enter your expression to be evaluated\n")
+edit = urwid.Edit("Enter your (addition-only, integers and floats ok) expression to be evaluated\n")
 fill = QuestionBox(edit)
 loop = urwid.MainLoop(fill, unhandled_input=exit_on_q)
 loop.run()

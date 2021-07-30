@@ -58,6 +58,7 @@ pile = urwid.Pile([edit, *rows])
 fill = QuestionBox(pile)
 urwid.connect_signal(exit, 'click', on_exit_clicked)
 urwid.connect_signal(plus, 'click', button_click)
+urwid.connect_signal(point, 'click', button_click)
 urwid.connect_signal(delete, 'click', on_delete_clicked)
 urwid.connect_signal(equals, 'click', fill.evaluate)
 

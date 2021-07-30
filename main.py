@@ -1,6 +1,6 @@
 import urwid
 
-def exit_on_q(key):
+def exit_on_q(key: str):
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
 def on_exit_clicked(_):
@@ -16,7 +16,7 @@ def on_delete_clicked(_):
 valid_chars = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '+', ' ', '(', ')') # can you create malicious python with just these characters?
 
 class QuestionBox(urwid.Filler):
-    def keypress(self, size, key):
+    def keypress(self, size, key: str):
         if key != 'enter':
             return super(QuestionBox, self).keypress(size, key)
         self.evaluate()

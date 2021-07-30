@@ -42,12 +42,18 @@ for i in range(10):
     urwid.connect_signal(button, 'click', button_click)
     buttons.append(button)
 plus = urwid.Button("+")
+point = urwid.Button(".")
 delete = urwid.Button("Delete")
 equals = urwid.Button("=")
 exit = urwid.Button("Exit")
 
-div = urwid.Divider()
-pile = urwid.Pile([edit, *buttons, plus, delete, equals, exit])
+rows = []
+rows.append(urwid.Columns(buttons[7:]))
+rows.append(urwid.Columns(buttons[4:7]))
+rows.append(urwid.Columns(buttons[1:4]))
+rows.append(urwid.Columns([point, buttons[0], plus]))
+rows.append(urwid.Columns([equals, delete, exit]))
+pile = urwid.Pile([edit, *rows])
 
 fill = QuestionBox(pile)
 urwid.connect_signal(exit, 'click', on_exit_clicked)
